@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-MZ">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#10151b">
+  <meta name="description" content="Experimente uma roleta promocional demonstrativa com três giros.">
+  <title>Roleta da Sorte | Demonstração</title>
+  <style>
+    :root{color-scheme:dark;--bg:#08110f;--panel:#111d19;--muted:#a7b4ad;--lime:#d5f18b;--gold:#f6d28b;--line:#e4d3a626}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -18%,#35472c 0,transparent 43%),radial-gradient(ellipse at 4% 70%,#16342d88,transparent 45%),var(--bg);color:#f8f5ea;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;justify-content:center}
+    button,a{-webkit-tap-highlight-color:transparent}
+    .page{width:min(100%,520px);padding:20px 18px calc(28px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center}
+    header{width:100%;display:flex;align-items:center;justify-content:space-between;margin:3px 0 26px}
+    .brand{display:flex;gap:9px;align-items:center;font-size:14px;font-weight:800;letter-spacing:.04em}
+    .brand-mark{width:34px;height:34px;border-radius:12px;background:linear-gradient(145deg,#f4dfaa,#c9a858);color:#18200e;display:grid;place-items:center;font-size:18px;box-shadow:0 4px 18px #d3b96b28}
+    .badge{font-size:10px;color:#e7d6a7;border:1px solid #e8d6a740;border-radius:99px;padding:7px 10px;letter-spacing:.08em;text-transform:uppercase;background:#ffffff06}
+    .eyebrow{margin:0 0 9px;color:#e5cb8b;text-transform:uppercase;letter-spacing:.22em;font-size:10px;font-weight:800;text-align:center}
+    h1{font-size:clamp(32px,9vw,43px);line-height:1.02;letter-spacing:-.045em;text-align:center;margin:0;max-width:420px}
+    .intro{color:var(--muted);font-size:14px;line-height:1.6;text-align:center;margin:12px 12px 24px;max-width:360px}
+    .game{width:100%;border:1px solid var(--line);background:linear-gradient(155deg,#17241f,#101916 70%);border-radius:26px;padding:21px 17px 19px;box-shadow:0 24px 75px #0007,inset 0 1px #ffffff0a}
+    .status-row{display:flex;align-items:center;justify-content:space-between;margin:0 2px 17px;font-size:12px;color:var(--muted)}
+    .tries{display:flex;gap:6px;align-items:center;color:#f4f3e9;font-weight:700}
+    .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px #f6d28b77}
+    .wheel-wrap{position:relative;width:min(78vw,330px);aspect-ratio:1;margin:0 auto 20px;filter:drop-shadow(0 13px 18px #0008)}
+    .pointer{position:absolute;z-index:3;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:30px solid #fff4d0;filter:drop-shadow(0 3px 2px #0008)}
+    .wheel{width:100%;height:100%;border-radius:50%;border:8px solid #e8d6a7;background:conic-gradient(from -30deg,#a84640 0 60deg,#c6943f 60deg 120deg,#276653 120deg 180deg,#a84640 180deg 240deg,#c6943f 240deg 300deg,#276653 300deg 360deg);position:relative;transition:transform 4.2s cubic-bezier(.12,.73,.12,1);box-shadow:inset 0 0 0 3px #18211c,inset 0 0 22px #0005,0 0 0 1px #f9e9c259}
+    .wheel:before{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from -1deg,transparent 0 59deg,#fff6 59deg 60deg)}
+    .label{position:absolute;left:50%;top:50%;width:45%;height:28px;margin-top:-14px;transform-origin:0 50%;display:flex;align-items:center;padding-left:25px;color:white;font-weight:900;font-size:clamp(12px,3.6vw,15px);text-shadow:0 1px 4px #000a}
+    .label:nth-child(1){transform:rotate(-60deg)}.label:nth-child(2){transform:rotate(0deg)}.label:nth-child(3){transform:rotate(60deg)}.label:nth-child(4){transform:rotate(120deg)}.label:nth-child(5){transform:rotate(180deg)}.label:nth-child(6){transform:rotate(240deg)}
+    .hub{position:absolute;z-index:2;inset:39%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff9e7,#d8c99f 55%,#928661);border:5px solid #f5edda;display:grid;place-items:center;color:#263022;font-weight:1000;font-size:12px;box-shadow:0 3px 9px #0006}
+    .spin{display:block;width:100%;min-height:54px;border:1px solid #f5dfa66b;border-radius:15px;background:linear-gradient(135deg,#f3dfa9,#d1ae61);color:#201a0d;font-size:15px;font-weight:900;letter-spacing:.07em;cursor:pointer;box-shadow:0 5px 0 #907640,0 12px 25px #d2b15b18;transition:transform .15s,filter .15s}
+    .spin:active{transform:translateY(3px);box-shadow:0 2px 0 #907640}.spin:disabled{opacity:.55;cursor:wait}
+    .result{min-height:25px;margin:12px 0 0;text-align:center;color:#e9d49c;font-size:14px;line-height:1.4}
+    .fineprint{font-size:11px;line-height:1.5;text-align:center;color:#99a5aa;margin:5px 7px 0}
+    .claim{display:none;width:100%;margin-top:17px;text-align:center;animation:appear .35s ease-out}
+    .claim.show{display:block}.amount{font-size:34px;font-weight:900;letter-spacing:-.04em;color:var(--gold);margin:0 0 3px}.claim p{font-size:13px;color:var(--muted);line-height:1.5;margin:0 4px 13px}
+    .partner{display:flex;min-height:52px;align-items:center;justify-content:center;text-decoration:none;border-radius:14px;background:linear-gradient(135deg,#f3dfa9,#d1ae61);color:#211906;font-weight:850;font-size:15px;padding:12px 16px}
+    .disclosure{font-size:11px;line-height:1.5;color:#c1c9c9;background:#ffffff09;border:1px solid var(--line);border-radius:13px;padding:12px 13px;margin-top:17px;text-align:left}
+    .disclosure strong{color:#f3efdd}.disclosure a{color:var(--lime)}
+    footer{font-size:10px;color:#68747a;text-align:center;margin-top:15px}
+    .win-overlay{position:fixed;z-index:10;inset:0;display:none;place-items:center;padding:22px;background:#030806dc;backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);overflow:hidden}
+    .win-overlay.show{display:grid;animation:fade-in .3s ease-out}
+    .win-card{position:relative;z-index:2;width:min(100%,390px);padding:31px 23px 23px;text-align:center;border:1px solid #e6cf9166;border-radius:25px;background:radial-gradient(ellipse at 50% 0,#3b442a,#17211b 47%,#101713 100%);box-shadow:0 25px 90px #000b,inset 0 1px #ffffff18;animation:pop-in .48s cubic-bezier(.2,.8,.2,1) both}
+    .win-icon{width:52px;height:52px;margin:0 auto 14px;display:grid;place-items:center;border-radius:18px;background:#e7d39d;color:#25301d;font-size:25px;box-shadow:0 5px 25px #dec57c35}
+    .win-kicker{margin:0 0 7px;color:#e6cd8c;font-size:10px;font-weight:850;letter-spacing:.2em;text-transform:uppercase}
+    .win-card h2{margin:0;font-size:clamp(30px,9vw,38px);line-height:1.05;letter-spacing:-.05em}
+    .win-value{margin:13px 0 10px;color:#f4d78f;font-size:clamp(44px,14vw,60px);font-weight:950;letter-spacing:-.06em;line-height:1;text-shadow:0 3px 30px #e7c87338}
+    .win-copy{margin:0 auto 19px;max-width:300px;color:#bec8bf;font-size:13px;line-height:1.6}
+    .win-card .partner{min-height:54px}
+    .close-win{margin-top:15px;padding:8px 15px;border:0;background:none;color:#b6c0b8;font:inherit;font-size:12px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+    .popup-note{margin:15px 0 0;color:#87938a;font-size:10px;line-height:1.5}
+    .confetti{position:absolute;z-index:1;top:-15px;width:8px;height:13px;border-radius:2px;pointer-events:none;animation:fall var(--duration,3s) linear var(--delay,0s) forwards;opacity:0}
+    @keyframes appear{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fade-in{from{opacity:0}to{opacity:1}}
+    @keyframes pop-in{0%{opacity:0;transform:translateY(18px) scale(.92)}100%{opacity:1;transform:translateY(0) scale(1)}}
+    @keyframes fall{0%{opacity:0;transform:translate3d(0,-4vh,0) rotate(0)}10%{opacity:1}100%{opacity:.1;transform:translate3d(var(--drift,20px),110vh,0) rotate(760deg)}}
+    @media(min-width:600px){.page{padding-top:30px}.game{padding:23px 24px 20px}.wheel-wrap{width:320px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="brand"><span class="brand-mark" aria-hidden="true">✦</span><span>GIRO DA SORTE</span></div>
+      <span class="badge">Modo demonstração</span>
+    </header>
+    <p class="eyebrow">Uma experiência promocional</p>
+    <h1>Gira a roda.<br>Experimenta a sorte.</h1>
+    <p class="intro">Tens três giros para experimentar a roleta. Vê o resultado de cada tentativa abaixo.</p>
+
+    <section class="game" aria-label="Roleta demonstrativa">
+      <div class="status-row"><span>AS TUAS TENTATIVAS</span><span class="tries" id="tries"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span id="triesText">3 restantes</span></span></div>
+      <div class="wheel-wrap" aria-label="Roleta com prémios demonstrativos">
+        <div class="pointer" aria-hidden="true"></div>
+        <div class="wheel" id="wheel" role="img" aria-label="Roleta com valores de demonstração">
+          <span class="label">100 MT</span><span class="label">50 MT</span><span class="label">200 MT</span><span class="label">1000 MT</span><span class="label">20 MT</span><span class="label">500 MT</span>
+        </div>
+        <div class="hub" aria-hidden="true">GIRA</div>
+      </div>
+      <button class="spin" id="spin" type="button">GIRAR A ROLETA</button>
+      <p class="result" id="result" aria-live="polite">Toca no botão para começar.</p>
+      <p class="fineprint">Os giros e valores apresentados são apenas uma simulação visual. Não representam saldo ou prémio resgatável.</p>
+    </section>
+
+    <section class="claim" id="claim" aria-live="polite">
+      <p class="amount">1.000 MT</p>
+      <p>Este é um resultado de demonstração. Não há levantamento de prémio nesta página. Podes visitar o parceiro através do link abaixo.</p>
+      <a class="partner" href="https://go.aff.nicebetpartners.com/ikwascov" target="_blank" rel="sponsored noopener noreferrer">Visitar o parceiro</a>
+    </section>
+
+    <aside class="disclosure"><strong>Informação:</strong> esta página é uma demonstração e não paga prémios. O botão abre um link de parceiro afiliado; a eventual criação de conta, ofertas e condições são da responsabilidade do parceiro. Consulta os termos e joga com responsabilidade.</aside>
+    <footer>18+ · Apenas para fins demonstrativos</footer>
+  </main>
+  <script>
+    (()=>{
+      const wheel=document.getElementById('wheel');
+      const button=document.getElementById('spin');
+      const result=document.getElementById('result');
+      const claim=document.getElementById('claim');
+      const dots=[...document.querySelectorAll('.dot')];
+      const triesText=document.getElementById('triesText');
+      let remaining=3,rotation=0,busy=false;
+      const outcomes=['Quase! Esta foi só uma tentativa de demonstração.','Mais um giro concluído. Continua a experiência.','Resultado final da simulação: 1.000 MT.'];
+      button.addEventListener('click',()=>{
+        if(busy||remaining===0)return;
+        busy=true;button.disabled=true;remaining--;
+        if(dots[remaining])dots[remaining].style.opacity='.2';
+        triesText.textContent=`${remaining} ${remaining===1?'restante':'restantes'}`;
+        rotation+=360*5+(remaining===0?180:240);
+        wheel.style.transform=`rotate(${rotation}deg)`;
+        result.textContent='A roleta está a girar…';
+        window.setTimeout(()=>{
+          result.textContent=outcomes[2-remaining];
+          busy=false;
+          if(remaining===0){button.textContent='FIM DA DEMONSTRAÇÃO';claim.classList.add('show');showWin();}
+          else button.disabled=false;
+        },4250);
+      });
+      function showWin(){
+        const overlay=document.getElementById('winOverlay');
+        overlay.classList.add('show');overlay.setAttribute('aria-hidden','false');
+        document.getElementById('closeWin').focus();
+        const colors=['#f3dfa9','#d5f18b','#fff7dd','#c99749','#94b69a'];
+        for(let i=0;i<75;i++){
+          const bit=document.createElement('i');bit.className='confetti';
+          bit.style.left=`${Math.random()*100}%`;bit.style.backgroundColor=colors[i%colors.length];
+          bit.style.setProperty('--duration',`${2.5+Math.random()*2.5}s`);
+          bit.style.setProperty('--delay',`${Math.random()*.8}s`);
+          bit.style.setProperty('--drift',`${Math.random()*180-90}px`);
+          bit.style.transform=`rotate(${Math.random()*360}deg)`;
+          overlay.appendChild(bit);window.setTimeout(()=>bit.remove(),6000);
+        }
+      }
+      function closeWin(){const overlay=document.getElementById('winOverlay');overlay.classList.remove('show');overlay.setAttribute('aria-hidden','true');button.focus();}
+      document.getElementById('closeWin').addEventListener('click',closeWin);
+      document.getElementById('winOverlay').addEventListener('click',event=>{if(event.target.id==='winOverlay')closeWin();});
+      document.addEventListener('keydown',event=>{if(event.key==='Escape'&&document.getElementById('winOverlay').classList.contains('show'))closeWin();});
+    })();
+  </script>
+  <div class="win-overlay" id="winOverlay" role="dialog" aria-modal="true" aria-labelledby="winTitle" aria-describedby="winCopy" aria-hidden="true">
+    <section class="win-card">
+      <div class="win-icon" aria-hidden="true">✦</div>
+      <p class="win-kicker">Resultado final da simulação</p>
+      <h2 id="winTitle">Parabéns!</h2>
+      <p class="win-value">1.000 MT</p>
+      <p class="win-copy" id="winCopy">Este valor foi apresentado apenas para efeito demonstrativo e não corresponde a um prémio resgatável.</p>
+      <a class="partner" href="https://go.aff.nicebetpartners.com/ikwascov" target="_blank" rel="sponsored noopener noreferrer">Visitar o parceiro</a>
+      <button class="close-win" type="button" id="closeWin">Fechar</button>
+      <p class="popup-note">O link acima é de parceiro afiliado. Consulte as condições no site de destino.</p>
+    </section>
+  </div>
+</body>
+</html>
